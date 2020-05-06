@@ -20,7 +20,14 @@ const dal = {
       .then(() => user);
   },
   update: user => _readJSON()
-    .then(users => users.filter(dbUser => Number(dbUser.id) !== Number(user.id)))
+    .then(users => {
+      const filteredUsers = [];
+      users.forEach(dbUser => {
+        if (Number(dbUser.id) === Number(user.id)) user.password = dbUser.password;
+        else filteredUsers.push(dbUser);
+      });
+      return filteredUsers;
+    })
     .then(filteredUsers => {
       filteredUsers.push(user);
       return writeFile(DATA_FILE, JSON.stringify(filteredUsers));

@@ -12,14 +12,18 @@ router.post('/registration', (req, res, next) => userService
   })
   .catch(next));
 
-router.post('/login', (req, res) => {
-  console.log('login');
-  return res.send('login');
-});
+router.post('/login', (req, res, next) => userService
+  .login(req.body)
+  .then(user => {
+    const token = jwtSign(user);
+    res.cookie('jwt', token, { maxAge: 60000 * 60 * 24 * 31, path: '/' });
+    return res.status(200).json(user);
+  })
+  .catch(next));
 
 router.post('/logout', (req, res) => {
-  console.log('logout');
-  return res.send('logout');
+  res.cookie('jwt', '', { expires: 0, path: '/' });
+  return res.send(200);
 });
 
 module.exports = router;
