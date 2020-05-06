@@ -20,6 +20,8 @@ const jwtSign = user => jwt.sign(
   process.env.SECRET,
 );
 
+const jwtVerify = token => jwt.verify(token, process.env.SECRET);
+
 const compareHash = (password, hash) => new Promise((res, rej) => bcrypt.compare(password, hash, (err, result) => {
   if (err) return rej(new Error('error'));
   return res(result);
@@ -29,4 +31,5 @@ module.exports = {
   generateHash,
   jwtSign,
   compareHash,
+  jwtVerify,
 };

@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const routes = require('./routes');
 
@@ -16,6 +17,7 @@ const startCallback = () => {
 
 app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.use('/', routes);
 
