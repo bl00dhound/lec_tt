@@ -17,10 +17,7 @@ const dal = {
         users.push(user);
         return writeFile(DATA_FILE, JSON.stringify(users));
       })
-      .then(() => {
-        delete user.password;
-        return user;
-      });
+      .then(() => user);
   },
   update: user => _readJSON()
     .then(users => users.filter(dbUser => Number(dbUser.id) !== Number(user.id)))

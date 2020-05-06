@@ -11,7 +11,6 @@ const UserScheme = {
 const validation = {
   user: (user, isCreate = false) => Object.keys(UserScheme).reduce((acc, key) => {
     if (key === 'id' && isCreate) return acc;
-    if (key === 'password' && !isCreate) return acc;
 
     const validator = UserScheme[key];
     const value = user[key];

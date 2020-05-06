@@ -1,10 +1,15 @@
 const router = require('express').Router();
 
 const userService = require('../modules/user');
+const { jwtSign } = require('../utils');
 
 router.post('/registration', (req, res, next) => userService
   .create(req.body)
-  .then(user => res.status(201).json(user))
+  .then(user => {
+    const token = jwtSign(user);
+    res.cookie('jwt', token, { maxAge: 60000 * 60 * 24 * 31, path: '/' });
+    return res.status(201).json(user);
+  })
   .catch(next));
 
 router.post('/login', (req, res) => {
